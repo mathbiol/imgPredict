@@ -2,62 +2,9 @@
 <body>
 <canvas id="canvas" width = "800" height="400" style="float:left"></canvas>
 <div id="color" style="width:200px;height:50px;float:left"></div>
-<script type='text/javascript'>
+<script type='text/javascript' src="flearn.js">
 
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");	
-c.addEventListener('mousemove', pick);
-main();
 
-function main()
-{
-    var inputFileToLoad = document.createElement("input");
-    inputFileToLoad.type = "file";
-    inputFileToLoad.id = "inputFileToLoad";
-    document.body.appendChild(inputFileToLoad);
-
-    var buttonLoadFile = document.createElement("button");
-    buttonLoadFile.onclick = loadImageFileAsURL;
-    buttonLoadFile.textContent = "Load Selected File";
-    document.body.appendChild(buttonLoadFile);
-}
-  
-function loadImageFileAsURL()
-{
-    var filesSelected = document.getElementById("inputFileToLoad").files;
-    if (filesSelected.length > 0)
-    {
-        var fileToLoad = filesSelected[0];
-
-        if (fileToLoad.type.match("image.*"))
-        {
-            var fileReader = new FileReader();
-            fileReader.onload = function(fileLoadedEvent) 
-            {
-                var img = new Image();
-    	
-                img.onload = function() {
-  				ctx.drawImage(img, 0, 0);
-  				img.style.display = 'none';
-				}
-                img.src = fileLoadedEvent.target.result;
-            }
-            fileReader.readAsDataURL(fileToLoad);
-        }
-    }
-}
-
-function pick(event) {
-  var x = event.layerX;
-  var y = event.layerY;
-  var pixel = ctx.getImageData(x, y, 1, 1);
-  var data = pixel.data;
-  var rgba = 'rgba(' + data[0] + ', ' + data[1] +
-             ', ' + data[2] + ', ' + (data[3] / 255) + ')';
-  var color = document.getElementById('color');
-  color.style.background =  rgba;
-  color.textContent = rgba;
-}
 
 </script>
 
