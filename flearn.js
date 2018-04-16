@@ -1,7 +1,9 @@
 flearn=function(){}
 
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");	
+var c = document.getElementById("canvasbase");
+var ctx = c.getContext("2d");
+var c1 = document.getElementById("canvastop");
+var ctx1 = c1.getContext("2d");	
 main();
 
 function main()
@@ -14,7 +16,9 @@ function main()
     var buttonLoadFile = document.createElement("button");
     buttonLoadFile.onclick = loadImageFileAsURL;
     buttonLoadFile.textContent = "Load Selected File";
-    buttonLoadFile.style.position = 'absolute';
+    inputFileToLoad.style.float = 'right';
+    //buttonLoadFile.style.position = 'relative';
+    buttonLoadFile.style.float = 'right';
     document.body.appendChild(buttonLoadFile);
 }
   
@@ -43,7 +47,7 @@ function loadImageFileAsURL()
             }
             fileReader.readAsDataURL(fileToLoad);
         }   
-        c.addEventListener('click', pick);
+        c1.addEventListener('click', pick);
     }
 }
 
@@ -58,12 +62,6 @@ function getPixels(){
 }
 
 function pick(event) {
-  //if(!flearn.imgstack){
-      // the pixels were not harvested yet, let's do it
-     // getStack(event)
-      //debugger
-  //}
- // debugger
   var x = event.layerX;
   var y = event.layerY;
   var pixel = ctx.getImageData(x, y, 1, 1);
@@ -76,11 +74,13 @@ function pick(event) {
              ', ' + data[2] + ', ' + (data[3] / 255) + ')';
   var color = document.getElementById('color');
   color.style.background =  rgba;
+  color.style.float = 'right';
   color.textContent = rgba;
 }
 
 function eucledianDistance(rgb_of_clicked_pt){
         var reqd_rga = [];
+        ctx1.clearRect(0, 0, c1.width, c1.height);
         for( i = 0; i < flearn.imgstack.length; i++){
             for( j = 0 ; j < flearn.imgstack[0].length; j++){
                 reqd_rga = flearn.imgstack[i][j];
@@ -90,9 +90,9 @@ function eucledianDistance(rgb_of_clicked_pt){
 
                 if ( dist < 0.005){
                   //highlight the coordinates
-                   ctx.globalAlpha = 0.25;
-                   ctx.fillStyle = "blue";
-                   ctx.fillRect(i,j,8,8);
+                   ctx1.globalAlpha = 0.048;
+                   ctx1.fillStyle = "blue";
+                   ctx1.fillRect(i,j,8,8);
                 }                          
             }
 
