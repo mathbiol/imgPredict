@@ -22,6 +22,31 @@ function main()
     //buttonLoadFile.style.position = 'relative';
     //buttonLoadFile.style.float = 'right';
     div1.appendChild(buttonLoadFile);
+
+    var divTemp = document.createElement("divTemp");
+    divTemp.style.marginLeft = "85px";
+    divTemp.appendChild(document.createTextNode('Distance'));
+    div1.appendChild(divTemp);
+
+    var dist = document.createElement("input");
+    dist.setAttribute("type", "text");
+    dist.setAttribute("value","0.05");
+    dist.setAttribute("id", "distVal")
+    dist.style.width = "70px";
+    dist.style.marginLeft = "10px";
+    dist.onkeydown = function(){return isNumeric(event)};
+    div1.appendChild(dist);
+}
+
+function isNumeric(evt)
+{
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode != 8 && charCode != 46 && charCode > 3  && (charCode < 48 || charCode > 57))
+  {
+    alert('Enter only numbers');
+    return false;
+  }
+  return true;
 }
   
 function loadImageFileAsURL()
@@ -107,7 +132,8 @@ function eucledianDistance(rgb_of_clicked_pt){
                                       Math.pow((rgb_of_clicked_pt[1] - reqd_rga[1]), 2) +  
                                       Math.pow((rgb_of_clicked_pt[2] - reqd_rga[2]), 2));
 
-                if ( dist < 0.005){
+                var constDist = document.getElementById("distVal").value;
+                if ( dist < constDist){
                   //highlight the coordinates
                    ctx1.globalAlpha = 0.5;
                    ctx1.fillStyle = "blue";
