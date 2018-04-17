@@ -5,6 +5,7 @@ var ctx = c.getContext("2d");
 var c1 = document.getElementById("canvastop");
 var ctx1 = c1.getContext("2d");	
 var div1 = document.getElementById("div1");
+var addPixels = false;
 main();
 
 function main()
@@ -43,6 +44,7 @@ function loadImageFileAsURL()
   				  img.style.display = 'none';
   				  // harvesting all the pixels of the image
                   getPixels();
+                  getAddButton();
 				}
                 img.src = fileLoadedEvent.target.result;
             }
@@ -60,6 +62,17 @@ function getPixels(){
               flearn.imgstack[j][i]=ctx.getImageData(i, j, 1, 1).data.slice(0,3)
           }
       }
+}
+
+function getAddButton(){
+    var addbutton = document.createElement("button");
+    addbutton.onclick = setAddPixels;
+    addbutton.textContent = "Add";
+    div1.appendChild(addbutton);
+}
+
+function setAddPixels(){
+    addPixels = true;
 }
 
 function pick(event) {
@@ -84,23 +97,24 @@ function pick(event) {
 
 function eucledianDistance(rgb_of_clicked_pt){
         var reqd_rga = [];
-        ctx1.clearRect(0, 0, c1.width, c1.height);
+        if (addPixels == false){
+          ctx1.clearRect(0, 0, c1.width, c1.height);
+        }  
         for( i = 0; i < flearn.imgstack.length; i++){
             for( j = 0 ; j < flearn.imgstack[0].length; j++){
                 reqd_rga = flearn.imgstack[i][j];
                 var dist = Math.sqrt( Math.pow((rgb_of_clicked_pt[0] - reqd_rga[0]), 2) + 
                                       Math.pow((rgb_of_clicked_pt[1] - reqd_rga[1]), 2) +  
-                                      Math.pow((rgb_of_clicked_pt[1] - reqd_rga[1]), 2));
+                                      Math.pow((rgb_of_clicked_pt[2] - reqd_rga[2]), 2));
 
                 if ( dist < 0.005){
                   //highlight the coordinates
-                   ctx1.globalAlpha = 0.048;
+                   ctx1.globalAlpha = 0.5;
                    ctx1.fillStyle = "blue";
-                   ctx1.fillRect(i,j,8,8);
+                   ctx1.fillRect(i,j,5,5);
                 }                          
             }
 
         }
-  
-  
+        addPixels = false;
 }
