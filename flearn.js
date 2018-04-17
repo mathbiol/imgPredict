@@ -4,6 +4,7 @@ var c = document.getElementById("canvasbase");
 var ctx = c.getContext("2d");
 var c1 = document.getElementById("canvastop");
 var ctx1 = c1.getContext("2d");	
+var div1 = document.getElementById("div1");
 main();
 
 function main()
@@ -11,15 +12,15 @@ function main()
     var inputFileToLoad = document.createElement("input");
     inputFileToLoad.type = "file";
     inputFileToLoad.id = "inputFileToLoad";
-    document.body.appendChild(inputFileToLoad);
+    div1.appendChild(inputFileToLoad);
 
     var buttonLoadFile = document.createElement("button");
     buttonLoadFile.onclick = loadImageFileAsURL;
     buttonLoadFile.textContent = "Load Selected File";
-    inputFileToLoad.style.float = 'right';
+    //inputFileToLoad.style.float = 'right';
     //buttonLoadFile.style.position = 'relative';
-    buttonLoadFile.style.float = 'right';
-    document.body.appendChild(buttonLoadFile);
+    //buttonLoadFile.style.float = 'right';
+    div1.appendChild(buttonLoadFile);
 }
   
 function loadImageFileAsURL()
@@ -72,9 +73,12 @@ function pick(event) {
   eucledianDistance(rgb_of_clicked_pt);
   var rgba = 'rgba(' + data[0] + ', ' + data[1] +
              ', ' + data[2] + ', ' + (data[3] / 255) + ')';
-  var color = document.getElementById('color');
+  var color = document.getElementById("color");
+  //div1.appendChild(color);
+  //color.style.width = 150;
+  //color.style.height = 30;
   color.style.background =  rgba;
-  color.style.float = 'right';
+  //color.style.float = 'right';
   color.textContent = rgba;
 }
 
