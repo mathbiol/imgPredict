@@ -13,29 +13,22 @@ function main()
     var inputFileToLoad = document.createElement("input");
     inputFileToLoad.type = "file";
     inputFileToLoad.id = "inputFileToLoad";
+    inputFileToLoad.addEventListener('click', enableLoadButton);
     div1.appendChild(inputFileToLoad);
 
     var buttonLoadFile = document.createElement("button");
     buttonLoadFile.onclick = loadImageFileAsURL;
     buttonLoadFile.textContent = "Load Selected File";
+    buttonLoadFile.id = "buttonLoadFile";
     //inputFileToLoad.style.float = 'right';
     //buttonLoadFile.style.position = 'relative';
     //buttonLoadFile.style.float = 'right';
     div1.appendChild(buttonLoadFile);
+}
 
-    var divTemp = document.createElement("divTemp");
-    divTemp.style.marginLeft = "85px";
-    divTemp.appendChild(document.createTextNode('Distance'));
-    div1.appendChild(divTemp);
-
-    var dist = document.createElement("input");
-    dist.setAttribute("type", "text");
-    dist.setAttribute("value","0.05");
-    dist.setAttribute("id", "distVal")
-    dist.style.width = "70px";
-    dist.style.marginLeft = "10px";
-    dist.onkeydown = function(){return isNumeric(event)};
-    div1.appendChild(dist);
+function enableLoadButton()
+{
+  document.getElementById("buttonLoadFile").disabled = false;
 }
 
 function isNumeric(evt)
@@ -69,6 +62,7 @@ function loadImageFileAsURL()
   				  img.style.display = 'none';
   				  // harvesting all the pixels of the image
                   getPixels();
+                  addDistTextBox();
                   getAddButton();
 				}
                 img.src = fileLoadedEvent.target.result;
@@ -77,6 +71,7 @@ function loadImageFileAsURL()
         }   
         c1.addEventListener('click', pick);
     }
+    document.getElementById("buttonLoadFile").disabled = true;
 }
 
 function getPixels(){
@@ -94,6 +89,22 @@ function getAddButton(){
     addbutton.onclick = setAddPixels;
     addbutton.textContent = "Add";
     div1.appendChild(addbutton);
+}
+
+function addDistTextBox(){
+    var divTemp = document.createElement("divTemp");
+    divTemp.style.marginLeft = "85px";
+    divTemp.appendChild(document.createTextNode('Distance'));
+    div1.appendChild(divTemp);
+
+    var dist = document.createElement("input");
+    dist.setAttribute("type", "text");
+    dist.setAttribute("value","0.05");
+    dist.setAttribute("id", "distVal")
+    dist.style.width = "70px";
+    dist.style.marginLeft = "10px";
+    dist.onkeydown = function(){return isNumeric(event)};
+    div1.appendChild(dist);
 }
 
 function setAddPixels(){
