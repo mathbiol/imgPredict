@@ -5,6 +5,7 @@ var ctx = c.getContext("2d");
 var c1 = document.getElementById("canvastop");
 var ctx1 = c1.getContext("2d");	
 var div1 = document.getElementById("div1");
+var div3 = document.getElementById("div3");
 var addPixels = false;
 main();
 
@@ -70,6 +71,7 @@ function loadImageFileAsURL()
   				  // harvesting all the pixels of the image
                   getPixels();
                   getAddButton();
+                  getHarvestButton();
 				}
                 img.src = fileLoadedEvent.target.result;
             }
@@ -93,7 +95,62 @@ function getAddButton(){
     var addbutton = document.createElement("button");
     addbutton.onclick = setAddPixels;
     addbutton.textContent = "Add";
+    addbutton.style.marginLeft = "85px";
     div1.appendChild(addbutton);
+}
+
+function getHarvestButton(){
+    var addbutton = document.createElement("button");
+    addbutton.onclick = getCheckedRadioButton;
+    addbutton.textContent = "Harvest All";
+    addbutton.style.marginLeft = "85px";
+    div1.appendChild(addbutton);
+}
+
+function getCheckedRadioButton(){
+  var checkedRBs = [];
+  var radioBs = document.getElementById("div3").children;
+  if (radioBs.length > 0){
+    for( var i = 0 ; i < radioBs.length ; i++){
+        if(radioBs[i].checked){
+          checkedRBs.push(radioBs[i].value);
+        }
+    }
+  }else{
+    alert('First click the image to get the radio buttons');
+    return ;
+  }
+
+  if(checkedRBs.length <= 0){
+    alert('Please check the Radio buttons');
+    return ;
+  }
+        
+  var constDist = document.getElementById("distVal").value;
+  var reqd_rga = [];
+        ctx1.clearRect(0, 0, c1.width, c1.height);
+        for( i = 0; i < flearn.imgstack.length; i++){
+            for( j = 0 ; j < flearn.imgstack[0].length; j++){
+                reqd_rga = flearn.imgstack[i][j];
+                for( k = 0; k < checkedRBs.length; k++){
+                  var dist = Math.sqrt( Math.pow((checkedRBs[k][0] - reqd_rga[0]), 2) + 
+                                      Math.pow((checkedRBs[k][1] - reqd_rga[1]), 2) +  
+                                      Math.pow((checkedRBs[k][2] - reqd_rga[2]), 2));
+
+                
+                if ( dist < 144){
+                  //highlight the coordinates
+                   ctx1.globalAlpha = 0.9;
+                   ctx1.fillStyle = "red";
+                   ctx1.fillRect(i,j,5,5);
+                }    
+               }                        
+            }
+
+        }
+  
+  
+
 }
 
 function setAddPixels(){
@@ -124,6 +181,7 @@ function eucledianDistance(rgb_of_clicked_pt){
         var reqd_rga = [];
         if (addPixels == false){
           ctx1.clearRect(0, 0, c1.width, c1.height);
+          div3.innerHTML = "";
         }  
         for( i = 0; i < flearn.imgstack.length; i++){
             for( j = 0 ; j < flearn.imgstack[0].length; j++){
@@ -138,6 +196,22 @@ function eucledianDistance(rgb_of_clicked_pt){
                    ctx1.globalAlpha = 0.5;
                    ctx1.fillStyle = "blue";
                    ctx1.fillRect(i,j,5,5);
+
+                   // creating the radio buttons in div3
+                   var radioInput = document.createElement('input');
+                   radioInput.setAttribute('type', 'radio');
+                   radioInput.style.marginRight = "20px";
+                   var value = reqd_rga;
+                   radioInput.setAttribute('value',value);
+                   //radioInput.innerText = "<br />";
+                   var name = i + ', ' + j + ', ' + reqd_rga[0] + ', '+reqd_rga[1] + ', '+reqd_rga[2];
+                   var radioLabel = document.createTextNode(name);
+                   div3.appendChild(radioLabel);
+                   div3.appendChild(radioInput);
+                   //div3.innerHTML = "\n";
+                   //radioLabel.style.marginRight = "10px";
+                   
+                   //dist.style.marginLeft = "10px";
                 }                          
             }
 
