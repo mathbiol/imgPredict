@@ -133,7 +133,7 @@ function getCheckedRadioButton(){
                                       Math.pow((checkedRBs[k][2] - reqd_rga[2]), 2));
 
                 
-                if ( dist < 144){
+                if ( dist < 200){ //TODO Confirm
                   //highlight the coordinates
                    ctx1.globalAlpha = 0.9;
                    ctx1.fillStyle = "red";
@@ -143,6 +143,7 @@ function getCheckedRadioButton(){
             }
 
         }
+    }
   
 function addDistTextBox(){
     var divTemp = document.createElement("divTemp");
