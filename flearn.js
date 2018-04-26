@@ -6,7 +6,7 @@ var c1 = document.getElementById("canvastop");
 var ctx1 = c1.getContext("2d");	
 var div1 = document.getElementById("div1");
 var div3 = document.getElementById("div3");
-var addPixels = false;
+var addPixels = true;
 main();
 
 function main()
@@ -78,10 +78,10 @@ function loadImageFileAsURL()
 
 function getPixels(){
     flearn.imgstack=[]
-      for(j = 0; j < c.height; j++){
-          flearn.imgstack[j] = [];
-          for(i = 0; i < c.width; i++){
-              flearn.imgstack[j][i]=ctx.getImageData(i, j, 1, 1).data.slice(0,3)
+      for(i = 0; i < c.width; i++){
+          flearn.imgstack[i] = [];
+          for(j = 0; j < c.height; j++){
+              flearn.imgstack[i][j]=ctx.getImageData(i, j, 1, 1).data.slice(0,3)
           }
       }
 }
@@ -187,6 +187,19 @@ function pick(event) {
 
 function eucledianDistance(rgb_of_clicked_pt){
         var reqd_rga = [];
+
+        // creating the checkbox button for the selected point in div3
+        var radioInput = document.createElement('input');
+        radioInput.setAttribute('type', 'checkbox');
+        radioInput.style.marginRight = "20px";
+        radioInput.checked = true;
+        var value = reqd_rga;
+        radioInput.setAttribute('value',value);
+        var name = i + ', ' + j + ', ' + rgb_of_clicked_pt[0] + ', '+rgb_of_clicked_pt[1] + ', '+rgb_of_clicked_pt[2];
+        var radioLabel = document.createTextNode(name);
+        div3.appendChild(radioLabel);
+        div3.appendChild(radioInput);
+
         if (addPixels == false){
           ctx1.clearRect(0, 0, c1.width, c1.height);
           div3.innerHTML = "";
@@ -202,20 +215,10 @@ function eucledianDistance(rgb_of_clicked_pt){
                 if ( dist < constDist){
                   //highlight the coordinates
                    ctx1.globalAlpha = 0.5;
-                   ctx1.fillStyle = "blue";
-                   ctx1.fillRect(i,j,5,5);
+                   ctx1.fillStyle = "yellow";
+                   ctx1.fillRect(i-2,j+2,5,5);
 
-                   // creating the radio buttons in div3
-                   var radioInput = document.createElement('input');
-                   radioInput.setAttribute('type', 'radio');
-                   radioInput.style.marginRight = "20px";
-                   var value = reqd_rga;
-                   radioInput.setAttribute('value',value);
-                   //radioInput.innerText = "<br />";
-                   var name = i + ', ' + j + ', ' + reqd_rga[0] + ', '+reqd_rga[1] + ', '+reqd_rga[2];
-                   var radioLabel = document.createTextNode(name);
-                   div3.appendChild(radioLabel);
-                   div3.appendChild(radioInput);
+                   
                    //div3.innerHTML = "\n";
                    //radioLabel.style.marginRight = "10px";
                    
@@ -224,5 +227,5 @@ function eucledianDistance(rgb_of_clicked_pt){
             }
 
         }
-        addPixels = false;
+        addPixels = true;
 }
