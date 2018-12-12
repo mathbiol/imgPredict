@@ -4,3 +4,5 @@ This project can be used by the pathologist to analyse the images of the human t
 #### Link to check it live
 https://mathbiol.github.io/imgPredict/
 
+Note: For avoiding any stale data issues, use the incognito window.
+
